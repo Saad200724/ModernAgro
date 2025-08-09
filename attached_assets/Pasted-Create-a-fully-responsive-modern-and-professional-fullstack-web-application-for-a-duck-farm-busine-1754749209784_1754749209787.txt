@@ -1,0 +1,53 @@
+Create a fully responsive, modern, and professional fullstack web application for a duck farm business named "Modern Agro".  
+The primary theme should be farm-fresh green (#26732d), white (#ffffff), and earthy accents.  
+Design must reflect the work of an expert UI/UX designer — clean, consistent, accessible, and elegant.
+
+### Key Features:
+1. **Public Website**:
+   - **Homepage**:  
+     - Hero section with Modern Agro logo, professional tagline, and a call-to-action button linking to the shop.  
+     - Showcase duck farm visuals — ducks, eggs, farm environment.  
+     - "About Us" section explaining Modern Agro’s story and ethical farming process.  
+     - Featured products carousel.
+   - **Shop Page**:  
+     - List products (Duck Meat, Duck Eggs, other future products).  
+     - Card layout with image, title, description, price, and "Add to Cart" button.  
+     - Filter/search options.
+   - **Product Details Page**:  
+     - High-resolution product images.  
+     - Description, nutritional facts, price, quantity selector, add-to-cart.  
+     - Related products section.
+   - **Cart & Checkout**:  
+     - View/update cart items, remove items.  
+     - Checkout form: Name, Phone, Address, Payment Method (Cash on Delivery).  
+     - Order confirmation page.
+   - **Blog Page**:  
+     - Farm-related articles (e.g., benefits of duck eggs, farming tips).  
+     - Each blog post supports title, date, image, and content.
+   - **Contact Page**:  
+     - Contact form (Name, Email, Message).  
+     - Map embed showing farm location.
+
+2. **Admin Panel** (Authentication required):
+   - Dashboard: Overview of total orders, revenue, and product stock.
+   - Product Management: Add, edit, delete products, update prices, manage stock.
+   - Blog Management: Add, edit, delete blog posts.
+   - Order Management: View orders, update status (Pending, Shipped, Delivered).
+   - Secure login/logout system.
+
+3. **Technical Requirements**:
+   - Frontend: **React** + **Tailwind CSS** for responsive design, animations, and clean UI.
+   - Backend: **Node.js + Express** API with **Supabase** or **MongoDB** for database.
+   - State Management: **Redux Toolkit** or Context API.
+   - Authentication: Supabase Auth / JWT-based.
+   - Data Models: Products, Orders, Blogs, Users.
+   - Cart data stored in browser localStorage (for guests) and synced with DB (for logged-in users).
+   - Mobile-first, SEO-friendly, with meta tags.
+   - Smooth transitions and hover animations.
+
+4. **Extra Details**:
+   - Sticky navbar with live cart count.
+   - Footer with quick links, contact info, and social icons.
+   - Color palette consistent across UI.
+   - Icons from Lucide or Heroicons.
+   - Fully deployable in Replit environment.
