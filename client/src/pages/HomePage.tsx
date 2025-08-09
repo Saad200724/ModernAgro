@@ -5,6 +5,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import Layout from "@/components/Layout";
 import ProductCard from "@/components/ProductCard";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
+import { ShoppingCart, Phone, MessageCircle, Star, Award, Clock } from "lucide-react";
 import type { Product } from "@shared/schema";
 
 export default function HomePage() {
@@ -17,35 +19,119 @@ export default function HomePage() {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative bg-gray-50 overflow-hidden">
-        <div 
-          className="absolute inset-0"
-          style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080')",
-            backgroundSize: "cover",
-            backgroundPosition: "center"
-          }}
-        />
-        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
-          <div className="text-center">
-            <h1 className="text-4xl sm:text-6xl font-bold text-white mb-6" data-testid="hero-title">
-              Fresh From Our Farm
-              <span className="block text-warm-yellow">To Your Table</span>
-            </h1>
-            <p className="text-xl text-gray-200 mb-8 max-w-2xl mx-auto" data-testid="hero-description">
-              Premium duck eggs and meat from ethical, sustainable farming practices. 
-              Taste the difference that quality makes.
-            </p>
-            <Link href="/shop">
-              <Button 
-                size="lg" 
-                className="bg-farm-green text-white hover:bg-green-700 px-8 py-4 text-lg shadow-lg"
-                data-testid="hero-cta-button"
-              >
-                Shop Fresh Products
-              </Button>
-            </Link>
+      <section className="relative bg-gradient-to-br from-green-50 via-white to-yellow-50 py-20 overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-10 left-10 w-32 h-32 border-2 border-green-300 rounded-full"></div>
+          <div className="absolute top-40 right-20 w-20 h-20 border-2 border-yellow-300 rounded-full"></div>
+          <div className="absolute bottom-20 left-20 w-24 h-24 border-2 border-green-300 rounded-full"></div>
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Left Content */}
+            <div className="space-y-8">
+              {/* Premium Badge */}
+              <div className="flex items-center space-x-2">
+                <Badge variant="secondary" className="bg-green-100 text-green-800 hover:bg-green-100 px-4 py-2 text-sm font-semibold">
+                  <Star className="w-4 h-4 mr-2 fill-current" />
+                  Premium Duck Farm Since 2019
+                </Badge>
+              </div>
+
+              {/* Main Heading */}
+              <div>
+                <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight" data-testid="hero-title">
+                  Modern Agro{" "}
+                  <span className="text-green-600">Duck Farm</span>
+                </h1>
+                <h2 className="text-2xl lg:text-3xl font-medium text-gray-700 mt-3">
+                  Premium Quality, Farm Fresh Products
+                </h2>
+              </div>
+
+              {/* Description */}
+              <p className="text-gray-600 text-lg leading-relaxed max-w-lg" data-testid="hero-description">
+                Experience the finest duck products from our sustainable farm in Savar, Bangladesh. 
+                Three generations of expertise delivering fresh eggs, premium meat, and specialty products to your table.
+              </p>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap gap-4">
+                <Link href="/shop">
+                  <Button 
+                    className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 text-lg font-semibold shadow-lg transition-all duration-200"
+                    data-testid="hero-shop-button"
+                  >
+                    <ShoppingCart className="w-5 h-5 mr-2" />
+                    Shop Products
+                  </Button>
+                </Link>
+                <Button 
+                  variant="outline"
+                  className="border-2 border-green-600 text-green-700 hover:bg-green-50 px-8 py-3 text-lg font-semibold transition-all duration-200"
+                  data-testid="hero-order-button"
+                >
+                  <Phone className="w-5 h-5 mr-2" />
+                  Order Direct
+                </Button>
+                <Link href="/contact">
+                  <Button 
+                    variant="outline"
+                    className="border-2 border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-3 text-lg font-semibold"
+                    data-testid="hero-message-button"
+                  >
+                    <MessageCircle className="w-5 h-5 mr-2" />
+                    Contact Us
+                  </Button>
+                </Link>
+              </div>
+
+              
+            </div>
+
+            {/* Right Content - Farm Image */}
+            <div className="relative">
+              <div className="relative bg-gradient-to-br from-green-100 to-green-200 rounded-2xl p-6 shadow-xl">
+                {/* Trust Badge */}
+                <div className="absolute top-6 right-6 z-10">
+                  <Badge className="bg-white text-green-700 shadow-lg px-3 py-2 font-semibold">
+                    <Award className="w-4 h-4 mr-2" />
+                    Trusted by 500+ Families
+                  </Badge>
+                </div>
+                
+                {/* Duck Farm Image */}
+                <div className="relative">
+                  <img 
+                    src="/attached_assets/image_1754764150065.png" 
+                    alt="White ducks at Modern Agro Duck Farm" 
+                    className="w-full h-96 object-cover rounded-xl shadow-lg"
+                    data-testid="hero-farm-image"
+                  />
+                  
+                  {/* Quality Badge */}
+                  <div className="absolute bottom-4 left-4">
+                    <Badge className="bg-white/95 text-gray-700 shadow-lg px-3 py-2 font-semibold">
+                      <span className="text-green-600 mr-2">✓</span>
+                      Organic Certified
+                    </Badge>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Decorative Elements */}
+              <div className="absolute -top-6 -left-6 bg-white rounded-full p-4 shadow-lg border-4 border-green-100">
+                <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">3G</span>
+                </div>
+              </div>
+              <div className="absolute -bottom-6 -right-6 bg-white rounded-full p-4 shadow-lg border-4 border-yellow-100">
+                <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">150+</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -115,14 +201,14 @@ export default function HomePage() {
             </div>
             <div className="grid grid-cols-2 gap-4" data-testid="about-images">
               <img 
-                src="https://images.unsplash.com/photo-1547036967-23d11aacaee0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" 
-                alt="Ducks in natural habitat" 
+                src="https://images.unsplash.com/photo-1564419320461-6870880221ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" 
+                alt="Ducks swimming in pond" 
                 className="rounded-lg shadow-lg"
                 data-testid="about-image-1"
               />
               <img 
-                src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" 
-                alt="Farm barn" 
+                src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" 
+                alt="Duck farm with wooden fence" 
                 className="rounded-lg shadow-lg mt-8"
                 data-testid="about-image-2"
               />
@@ -133,8 +219,8 @@ export default function HomePage() {
                 data-testid="about-image-3"
               />
               <img 
-                src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" 
-                alt="Rolling farmland" 
+                src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" 
+                alt="Ducks grazing in green pasture" 
                 className="rounded-lg shadow-lg"
                 data-testid="about-image-4"
               />
