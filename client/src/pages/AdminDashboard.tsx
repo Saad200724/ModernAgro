@@ -80,26 +80,16 @@ export default function AdminDashboard() {
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [editingBlogPost, setEditingBlogPost] = useState<BlogPost | null>(null);
 
-  // Redirect to admin login if not authenticated
+  // Check for admin authentication - always require admin login
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      navigate("/admin-login");
-      return;
+    if (!isLoading) {
+      // Check if user is specifically an admin user (with id 'admin')
+      if (!user || user.id !== 'admin' || !user.isAdmin) {
+        navigate("/admin-login");
+        return;
+      }
     }
-  }, [isAuthenticated, isLoading, navigate]);
-
-  // Check if user is admin
-  useEffect(() => {
-    if (!isLoading && isAuthenticated && user && !user.isAdmin) {
-      toast({
-        title: "Access Denied",
-        description: "You don't have admin privileges.",
-        variant: "destructive",
-      });
-      window.location.href = "/";
-      return;
-    }
-  }, [isAuthenticated, isLoading, user, toast]);
+  }, [isAuthenticated, isLoading, user, navigate]);
 
   const productForm = useForm({
     resolver: zodResolver(productSchema),
@@ -156,8 +146,11 @@ export default function AdminDashboard() {
   // Product mutations
   const createProductMutation = useMutation({
     mutationFn: async (productData: z.infer<typeof productSchema>) => {
-      const response = await apiRequest("POST", "/api/admin/products", productData);
-      return await response.json();
+      return await apiRequest("/api/admin/products", {
+        method: "POST",
+        body: JSON.stringify(productData),
+        headers: { "Content-Type": "application/json" },
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/products"] });
@@ -173,8 +166,11 @@ export default function AdminDashboard() {
 
   const updateProductMutation = useMutation({
     mutationFn: async ({ id, data }: { id: number; data: Partial<z.infer<typeof productSchema>> }) => {
-      const response = await apiRequest("PUT", `/api/admin/products/${id}`, data);
-      return await response.json();
+      return await apiRequest(`/api/admin/products/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" },
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/products"] });
@@ -191,7 +187,9 @@ export default function AdminDashboard() {
 
   const deleteProductMutation = useMutation({
     mutationFn: async (id: number) => {
-      await apiRequest("DELETE", `/api/admin/products/${id}`);
+      await apiRequest(`/api/admin/products/${id}`, {
+        method: "DELETE",
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/products"] });
@@ -206,8 +204,11 @@ export default function AdminDashboard() {
   // Order mutations
   const updateOrderStatusMutation = useMutation({
     mutationFn: async ({ id, status }: { id: number; status: string }) => {
-      const response = await apiRequest("PUT", `/api/admin/orders/${id}/status`, { status });
-      return await response.json();
+      return await apiRequest(`/api/admin/orders/${id}/status`, {
+        method: "PUT",
+        body: JSON.stringify({ status }),
+        headers: { "Content-Type": "application/json" },
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
@@ -221,8 +222,11 @@ export default function AdminDashboard() {
   // Blog mutations
   const createBlogPostMutation = useMutation({
     mutationFn: async (postData: z.infer<typeof blogPostSchema>) => {
-      const response = await apiRequest("POST", "/api/admin/blog", postData);
-      return await response.json();
+      return await apiRequest("/api/admin/blog", {
+        method: "POST",
+        body: JSON.stringify(postData),
+        headers: { "Content-Type": "application/json" },
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/blog"] });
@@ -238,8 +242,11 @@ export default function AdminDashboard() {
 
   const updateBlogPostMutation = useMutation({
     mutationFn: async ({ id, data }: { id: number; data: Partial<z.infer<typeof blogPostSchema>> }) => {
-      const response = await apiRequest("PUT", `/api/admin/blog/${id}`, data);
-      return await response.json();
+      return await apiRequest(`/api/admin/blog/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" },
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/blog"] });
@@ -255,7 +262,9 @@ export default function AdminDashboard() {
 
   const deleteBlogPostMutation = useMutation({
     mutationFn: async (id: number) => {
-      await apiRequest("DELETE", `/api/admin/blog/${id}`);
+      await apiRequest(`/api/admin/blog/${id}`, {
+        method: "DELETE",
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/blog"] });
@@ -309,11 +318,11 @@ export default function AdminDashboard() {
       setEditingProduct(product);
       productForm.reset({
         name: product.name,
-        description: product.description,
+        description: product.description || "",
         price: parseFloat(product.price),
         category: product.category,
         imageUrl: product.imageUrl || "",
-        stock: product.stock || 0,
+        stock: product.stock ?? 0,
         nutritionalFacts: product.nutritionalFacts || "",
         isActive: product.isActive ?? true,
       });
@@ -544,12 +553,12 @@ export default function AdminDashboard() {
                       {orders?.slice(0, 5).map((order) => (
                         <TableRow key={order.id}>
                           <TableCell className="font-medium">#{order.id}</TableCell>
-                          <TableCell>{order.customerName}</TableCell>
+                          <TableCell>{order.customerName || "N/A"}</TableCell>
                           <TableCell>${order.totalAmount}</TableCell>
                           <TableCell>
-                            <Badge variant={getStatusBadgeVariant(order.status)}>
-                              {getStatusIcon(order.status)}
-                              <span className="ml-1 capitalize">{order.status}</span>
+                            <Badge variant={getStatusBadgeVariant(order.status || "pending")}>
+                              {getStatusIcon(order.status || "pending")}
+                              <span className="ml-1 capitalize">{order.status || "pending"}</span>
                             </Badge>
                           </TableCell>
                           <TableCell>
@@ -909,9 +918,9 @@ export default function AdminDashboard() {
                           </TableCell>
                           <TableCell className="font-medium">${order.totalAmount}</TableCell>
                           <TableCell>
-                            <Badge variant={getStatusBadgeVariant(order.status)}>
-                              {getStatusIcon(order.status)}
-                              <span className="ml-1 capitalize">{order.status}</span>
+                            <Badge variant={getStatusBadgeVariant(order.status || "pending")}>
+                              {getStatusIcon(order.status || "pending")}
+                              <span className="ml-1 capitalize">{order.status || "pending"}</span>
                             </Badge>
                           </TableCell>
                           <TableCell>
@@ -919,7 +928,7 @@ export default function AdminDashboard() {
                           </TableCell>
                           <TableCell>
                             <Select
-                              defaultValue={order.status}
+                              defaultValue={order.status || "pending"}
                               onValueChange={(status) => 
                                 updateOrderStatusMutation.mutate({ id: order.id, status })
                               }

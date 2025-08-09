@@ -90,7 +90,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         if (user) {
           // Grant admin rights to specific Replit usernames or emails
           const adminUsers = ['your-replit-username']; // Replace with your actual Replit username
-          const isAdmin = adminUsers.includes(user.email) || adminUsers.includes(user.firstName);
+          const isAdmin = adminUsers.includes(user.email || '') || adminUsers.includes(user.firstName || '');
           return res.json({ ...user, isAdmin });
         }
       }

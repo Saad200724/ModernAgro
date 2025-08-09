@@ -3,6 +3,7 @@ import { Link, useLocation } from "wouter";
 import { ShoppingCart, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/components/CartProvider";
+import logoImage from "@assets/ModernAgro_1754760252152.png";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -30,13 +31,11 @@ export default function Layout({ children }: LayoutProps) {
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2" data-testid="logo-link">
-              <div className="w-10 h-10 bg-farm-green rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945"></path>
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 5v14"></path>
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12H12"></path>
-                </svg>
-              </div>
+              <img 
+                src={logoImage} 
+                alt="Modern Agro Logo" 
+                className="w-10 h-10 rounded-full object-cover"
+              />
               <span className="text-xl font-bold text-gray-900">Modern Agro</span>
             </Link>
 
@@ -112,11 +111,11 @@ export default function Layout({ children }: LayoutProps) {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-farm-green rounded-lg flex items-center justify-center">
-                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945"></path>
-                  </svg>
-                </div>
+                <img 
+                  src={logoImage} 
+                  alt="Modern Agro Logo" 
+                  className="w-8 h-8 rounded-full object-cover"
+                />
                 <span className="text-lg font-bold">Modern Agro</span>
               </div>
               <p className="text-gray-400 text-sm">Premium duck products from ethical, sustainable farming practices.</p>
@@ -129,7 +128,7 @@ export default function Layout({ children }: LayoutProps) {
                 <li><Link href="/shop" className="hover:text-white transition-colors">Products</Link></li>
                 <li><Link href="/blog" className="hover:text-white transition-colors">Blog</Link></li>
                 <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
-                <li><Link href="/admin" className="hover:text-white transition-colors" data-testid="link-admin-panel">Admin Panel</Link></li>
+                <li><Link href="/admin-login" className="hover:text-white transition-colors" data-testid="link-admin-panel">Admin Login</Link></li>
               </ul>
             </div>
 

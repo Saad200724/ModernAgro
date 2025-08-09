@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Shield } from "lucide-react";
+import logoImage from "@assets/ModernAgro_1754760252152.png";
 
 export default function AdminLoginPage() {
   const [, navigate] = useLocation();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -26,12 +28,17 @@ export default function AdminLoginPage() {
         },
       });
     },
-    onSuccess: () => {
-      toast({
-        title: "Welcome Admin!",
-        description: "Successfully logged into the admin panel",
-      });
-      navigate("/admin");
+    onSuccess: async () => {
+      // Invalidate and refetch user data
+      await queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      // Wait a bit for the auth state to update
+      setTimeout(() => {
+        toast({
+          title: "Welcome Admin!",
+          description: "Successfully logged into the admin panel",
+        });
+        navigate("/admin");
+      }, 100);
     },
     onError: (error: any) => {
       toast({
@@ -66,8 +73,12 @@ export default function AdminLoginPage() {
     <div className="min-h-screen bg-gradient-to-b from-farm-green/5 to-white flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
         <div className="text-center mb-6">
-          <div className="mx-auto w-16 h-16 bg-farm-green/10 rounded-full flex items-center justify-center mb-4">
-            <Shield className="h-8 w-8 text-farm-green" />
+          <div className="mx-auto w-16 h-16 mb-4 flex items-center justify-center">
+            <img 
+              src={logoImage} 
+              alt="Modern Agro Logo" 
+              className="w-16 h-16 rounded-full object-cover"
+            />
           </div>
           <h1 className="text-2xl font-bold text-farm-green">Admin Login</h1>
           <p className="text-gray-600 mt-2">
