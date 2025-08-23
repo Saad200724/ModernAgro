@@ -14,7 +14,7 @@ export default function HomePage() {
     queryKey: ["/api/products"],
   });
 
-  const featuredProducts = products?.slice(0, 3) || [];
+  const featuredProducts = products?.slice(0, 4) || [];
 
   return (
     <Layout>
@@ -138,9 +138,9 @@ export default function HomePage() {
             </p>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-8" data-testid="featured-products-grid">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-8" data-testid="featured-products-grid">
             {isLoading ? (
-              Array.from({ length: 3 }).map((_, index) => (
+              Array.from({ length: 4 }).map((_, index) => (
                 <Card key={index} className="overflow-hidden">
                   <Skeleton className="w-full h-48" />
                   <CardContent className="p-6">

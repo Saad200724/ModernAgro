@@ -61,11 +61,9 @@ export default function Layout({ children }: LayoutProps) {
 
               {/* Logo */}
               <Link href="/" className="flex items-center space-x-2" data-testid="logo-link">
-                <img 
-                  src={logoImage} 
-                  alt="Modern Agro Logo" 
-                  className="w-8 h-8 rounded-full object-cover"
-                />
+                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">MA</span>
+                </div>
                 <span className="hidden sm:block text-lg font-bold text-gray-900">Modern Agro</span>
               </Link>
 
