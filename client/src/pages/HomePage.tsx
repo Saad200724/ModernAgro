@@ -19,16 +19,16 @@ export default function HomePage() {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-green-50 via-white to-yellow-50 py-20 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-purple-50 via-white to-indigo-50 py-12 lg:py-20 overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-10 left-10 w-32 h-32 border-2 border-green-300 rounded-full"></div>
-          <div className="absolute top-40 right-20 w-20 h-20 border-2 border-yellow-300 rounded-full"></div>
-          <div className="absolute bottom-20 left-20 w-24 h-24 border-2 border-green-300 rounded-full"></div>
+          <div className="absolute top-10 left-10 w-32 h-32 border-2 border-purple-300 rounded-full"></div>
+          <div className="absolute top-40 right-20 w-20 h-20 border-2 border-indigo-300 rounded-full"></div>
+          <div className="absolute bottom-20 left-20 w-24 h-24 border-2 border-purple-300 rounded-full"></div>
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="relative max-w-6xl mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
             {/* Left Content */}
             <div className="space-y-8">
               {/* Premium Badge */}
@@ -41,11 +41,11 @@ export default function HomePage() {
 
               {/* Main Heading */}
               <div>
-                <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight" data-testid="hero-title">
+                <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-gray-900 leading-tight" data-testid="hero-title">
                   Modern Agro{" "}
-                  <span className="text-green-600">Duck Farm</span>
+                  <span className="text-primary">Duck Farm</span>
                 </h1>
-                <h2 className="text-2xl lg:text-3xl font-medium text-gray-700 mt-3">
+                <h2 className="text-lg sm:text-xl lg:text-3xl font-medium text-gray-700 mt-3">
                   Premium Quality, Farm Fresh Products
                 </h2>
               </div>
@@ -57,31 +57,23 @@ export default function HomePage() {
               </p>
 
               {/* Action Buttons */}
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <Link href="/shop">
                   <Button 
-                    className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 text-lg font-semibold shadow-lg transition-all duration-200"
+                    className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white px-6 lg:px-8 py-3 text-base lg:text-lg font-semibold shadow-lg transition-all duration-200"
                     data-testid="hero-shop-button"
                   >
-                    <ShoppingCart className="w-5 h-5 mr-2" />
+                    <ShoppingCart className="w-4 h-4 mr-2" />
                     Shop Products
                   </Button>
                 </Link>
-                <Button 
-                  variant="outline"
-                  className="border-2 border-green-600 text-green-700 hover:bg-green-50 px-8 py-3 text-lg font-semibold transition-all duration-200"
-                  data-testid="hero-order-button"
-                >
-                  <Phone className="w-5 h-5 mr-2" />
-                  Order Direct
-                </Button>
                 <Link href="/contact">
                   <Button 
                     variant="outline"
-                    className="border-2 border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-3 text-lg font-semibold"
+                    className="w-full sm:w-auto border-2 border-primary text-primary hover:bg-primary/5 px-6 lg:px-8 py-3 text-base lg:text-lg font-semibold transition-all duration-200"
                     data-testid="hero-message-button"
                   >
-                    <MessageCircle className="w-5 h-5 mr-2" />
+                    <MessageCircle className="w-4 h-4 mr-2" />
                     Contact Us
                   </Button>
                 </Link>
@@ -146,7 +138,7 @@ export default function HomePage() {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8" data-testid="featured-products-grid">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-8" data-testid="featured-products-grid">
             {isLoading ? (
               Array.from({ length: 3 }).map((_, index) => (
                 <Card key={index} className="overflow-hidden">

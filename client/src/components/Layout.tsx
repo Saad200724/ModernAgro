@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { ShoppingCart, Menu, X } from "lucide-react";
+import { ShoppingCart, Menu, X, Search, Home, Package, User, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useCart } from "@/components/CartProvider";
 import logoImage from "@assets/ModernAgro_1754760252152.png";
 
@@ -46,29 +47,61 @@ export default function Layout({ children }: LayoutProps) {
         )}
 
         {/* Header */}
-        <header className="bg-white shadow-sm border-b border-gray-200">
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <Link href="/" className="flex items-center space-x-2" data-testid="logo-link">
-              <img 
-                src={logoImage} 
-                alt="Modern Agro Logo" 
-                className="w-10 h-10 rounded-full object-cover"
-              />
-              <span className="text-xl font-bold text-gray-900">Modern Agro</span>
-            </Link>
+        <header className="bg-white shadow-sm border-b border-gray-100">
+          <div className="px-4">
+            <div className="flex items-center h-16 gap-4">
+              {/* Mobile Menu Button */}
+              <button 
+                className="md:hidden p-2 -ml-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                data-testid="mobile-menu-button"
+              >
+                {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
 
-            {/* Navigation Links */}
-            <div className="hidden md:flex items-center space-x-8">
+              {/* Logo */}
+              <Link href="/" className="flex items-center space-x-2" data-testid="logo-link">
+                <img 
+                  src={logoImage} 
+                  alt="Modern Agro Logo" 
+                  className="w-8 h-8 rounded-full object-cover"
+                />
+                <span className="hidden sm:block text-lg font-bold text-gray-900">Modern Agro</span>
+              </Link>
+
+              {/* Search Bar - Mobile First */}
+              <div className="flex-1 max-w-lg mx-2">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <Input 
+                    placeholder="What can we help you find?"
+                    className="pl-10 bg-gray-50 border-0 rounded-full h-10 text-sm"
+                    data-testid="search-input"
+                  />
+                </div>
+              </div>
+
+              {/* Cart */}
+              <Link href="/cart" className="relative p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors" data-testid="cart-button">
+                <ShoppingCart className="w-5 h-5" />
+                {cartItemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium" data-testid="cart-count">
+                    {cartItemCount}
+                  </span>
+                )}
+              </Link>
+            </div>
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center justify-center space-x-8 pb-4">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`transition-colors ${
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                     location === item.href
-                      ? "text-farm-green font-medium border-b-2 border-farm-green"
-                      : "text-gray-700 hover:text-farm-green"
+                      ? "bg-primary text-white"
+                      : "text-gray-700 hover:bg-gray-100"
                   }`}
                   data-testid={`nav-${item.name.toLowerCase()}`}
                 >
@@ -77,54 +110,86 @@ export default function Layout({ children }: LayoutProps) {
               ))}
             </div>
 
-            {/* Cart & Actions */}
-            <div className="flex items-center space-x-4">
-              <Link href="/cart" className="relative p-2 text-gray-700 hover:text-farm-green transition-colors" data-testid="cart-button">
-                <ShoppingCart className="w-6 h-6" />
-                {cartItemCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-warm-yellow text-white text-xs rounded-full w-5 h-5 flex items-center justify-center" data-testid="cart-count">
-                    {cartItemCount}
-                  </span>
-                )}
-              </Link>
-              <button 
-                className="md:hidden p-2 text-gray-700"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                data-testid="mobile-menu-button"
-              >
-                {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </button>
-            </div>
-          </div>
-
-          {/* Mobile Menu */}
-          {isMobileMenuOpen && (
-            <div className="md:hidden py-4 border-t border-gray-200" data-testid="mobile-menu">
-              <div className="flex flex-col space-y-2">
-                {navigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className={`px-4 py-2 transition-colors ${
-                      location === item.href
-                        ? "text-farm-green font-medium bg-gray-50"
-                        : "text-gray-700 hover:text-farm-green hover:bg-gray-50"
-                    }`}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    data-testid={`mobile-nav-${item.name.toLowerCase()}`}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
+            {/* Mobile Menu Overlay */}
+            {isMobileMenuOpen && (
+              <div className="md:hidden absolute top-16 left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-50" data-testid="mobile-menu">
+                <div className="px-4 py-4 space-y-2">
+                  {navigation.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className={`flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                        location === item.href
+                          ? "bg-primary text-white"
+                          : "text-gray-700 hover:bg-gray-100"
+                      }`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      data-testid={`mobile-nav-${item.name.toLowerCase()}`}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
-        </nav>
+            )}
+          </div>
         </header>
       </div>
 
       {/* Main Content */}
-      <main>{children}</main>
+      <main className="pb-16 md:pb-0">{children}</main>
+
+      {/* Mobile Bottom Navigation */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50">
+        <div className="grid grid-cols-5 h-16">
+          <Link 
+            href="/"
+            className={`flex flex-col items-center justify-center space-y-1 ${
+              location === "/" ? "text-primary" : "text-gray-500"
+            }`}
+          >
+            <Home className="w-5 h-5" />
+            <span className="text-xs font-medium">Home</span>
+          </Link>
+          <Link 
+            href="/shop"
+            className={`flex flex-col items-center justify-center space-y-1 ${
+              location === "/shop" ? "text-primary" : "text-gray-500"
+            }`}
+          >
+            <Package className="w-5 h-5" />
+            <span className="text-xs font-medium">Shop</span>
+          </Link>
+          <div className="flex flex-col items-center justify-center">
+            <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center -mt-6 shadow-lg border-4 border-white">
+              <Search className="w-5 h-5 text-white" />
+            </div>
+          </div>
+          <Link 
+            href="/cart"
+            className={`flex flex-col items-center justify-center space-y-1 relative ${
+              location === "/cart" ? "text-primary" : "text-gray-500"
+            }`}
+          >
+            <ShoppingCart className="w-5 h-5" />
+            <span className="text-xs font-medium">Cart</span>
+            {cartItemCount > 0 && (
+              <span className="absolute -top-1 right-3 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">
+                {cartItemCount}
+              </span>
+            )}
+          </Link>
+          <Link 
+            href="/contact"
+            className={`flex flex-col items-center justify-center space-y-1 ${
+              location === "/contact" ? "text-primary" : "text-gray-500"
+            }`}
+          >
+            <User className="w-5 h-5" />
+            <span className="text-xs font-medium">Profile</span>
+          </Link>
+        </div>
+      </div>
 
       {/* Footer */}
       <footer style={{ backgroundColor: '#1E391E' }}>
