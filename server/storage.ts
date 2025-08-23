@@ -1,4 +1,12 @@
+import { db } from "./db";
+import { eq, and, desc, like } from "drizzle-orm";
 import {
+  users,
+  products,
+  orders,
+  orderItems,
+  blogPosts,
+  contactMessages,
   type User,
   type UpsertUser,
   type Product,
