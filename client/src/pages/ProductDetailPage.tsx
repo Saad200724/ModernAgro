@@ -95,7 +95,7 @@ export default function ProductDetailPage() {
             <div>
               <h1 className="text-3xl font-bold text-gray-900" data-testid="product-name">{product.name}</h1>
               <p className="text-xl text-farm-green font-bold mt-2" data-testid="product-price">
-                ${parseFloat(product.price).toFixed(2)}
+                ৳{parseFloat(product.price).toFixed(2)}
               </p>
             </div>
 
@@ -147,7 +147,7 @@ export default function ProductDetailPage() {
               className="w-full bg-farm-green hover:bg-green-700 text-white"
               data-testid="add-to-cart-button"
             >
-              Add to Cart - ${(parseFloat(product.price) * quantity).toFixed(2)}
+              Add to Cart - ৳{(parseFloat(product.price) * quantity).toFixed(2)}
             </Button>
           </div>
         </div>

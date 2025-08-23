@@ -528,7 +528,7 @@ export default function AdminDashboard() {
                     {isLoadingStats ? (
                       <Skeleton className="h-8 w-20" />
                     ) : (
-                      `$${stats?.totalRevenue || "0.00"}`
+                      `৳${stats?.totalRevenue || "0.00"}`
                     )}
                   </div>
                   <p className="text-xs text-muted-foreground">From all orders</p>
@@ -618,7 +618,7 @@ export default function AdminDashboard() {
                         <TableRow key={order.id}>
                           <TableCell className="font-medium">#{order.id}</TableCell>
                           <TableCell>{order.customerName || "N/A"}</TableCell>
-                          <TableCell>${order.totalAmount}</TableCell>
+                          <TableCell>৳{order.totalAmount}</TableCell>
                           <TableCell>
                             <Badge variant={getStatusBadgeVariant(order.status || "pending")}>
                               {getStatusIcon(order.status || "pending")}

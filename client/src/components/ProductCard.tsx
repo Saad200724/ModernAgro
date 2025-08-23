@@ -56,7 +56,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div className="flex items-center justify-between mt-3">
           <div>
             <span className="text-lg font-bold text-gray-900" data-testid={`product-price-${product.id}`}>
-${parseFloat(product.price).toFixed(2)}
+৳{parseFloat(product.price).toFixed(2)}
             </span>
           </div>
           <Button 

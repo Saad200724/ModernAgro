@@ -53,7 +53,7 @@ export default function CartPage() {
                         {product.name}
                       </h3>
                       <p className="text-gray-600 text-sm" data-testid={`cart-item-price-${product.id}`}>
-                        ${parseFloat(product.price).toFixed(2)} each
+                        ৳{parseFloat(product.price).toFixed(2)} each
                       </p>
                     </div>
                     
@@ -86,7 +86,7 @@ export default function CartPage() {
                     
                     <div className="text-right">
                       <p className="font-semibold" data-testid={`cart-item-total-${product.id}`}>
-                        ${(parseFloat(product.price) * quantity).toFixed(2)}
+                        ৳{(parseFloat(product.price) * quantity).toFixed(2)}
                       </p>
                       <Button
                         variant="ghost"
@@ -113,7 +113,7 @@ export default function CartPage() {
                 <div className="space-y-2 mb-4">
                   <div className="flex justify-between">
                     <span>Items ({getTotalItems()})</span>
-                    <span data-testid="subtotal">${getTotalPrice().toFixed(2)}</span>
+                    <span data-testid="subtotal">৳{getTotalPrice().toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Shipping</span>
@@ -122,7 +122,7 @@ export default function CartPage() {
                   <hr />
                   <div className="flex justify-between font-semibold text-lg">
                     <span>Total</span>
-                    <span data-testid="total-price">${getTotalPrice().toFixed(2)}</span>
+                    <span data-testid="total-price">৳{getTotalPrice().toFixed(2)}</span>
                   </div>
                 </div>
                 
