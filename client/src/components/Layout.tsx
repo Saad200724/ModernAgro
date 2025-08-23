@@ -159,11 +159,11 @@ export default function Layout({ children }: LayoutProps) {
             <span className="text-xs font-medium">Shop</span>
           </Link>
           <div className="flex flex-col items-center justify-center">
-            <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center -mt-6 shadow-lg border-4 border-white">
+            <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center -mt-6 shadow-lg border-4 border-white overflow-hidden">
               <img 
                 src={logoImage} 
                 alt="Modern Agro" 
-                className="w-7 h-7 rounded-full object-cover"
+                className="w-full h-full object-cover"
               />
             </div>
           </div>
