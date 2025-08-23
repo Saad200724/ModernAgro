@@ -188,7 +188,7 @@ export default function Layout({ children }: LayoutProps) {
             }`}
           >
             <User className="w-5 h-5" />
-            <span className="text-xs font-medium">Profile</span>
+            <span className="text-xs font-medium">Contact</span>
           </Link>
         </div>
       </div>
