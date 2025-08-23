@@ -187,7 +187,7 @@ export default function Layout({ children }: LayoutProps) {
               location === "/contact" ? "text-primary" : "text-gray-500"
             }`}
           >
-            <User className="w-5 h-5" />
+            <MessageCircle className="w-5 h-5" />
             <span className="text-xs font-medium">Contact</span>
           </Link>
         </div>
