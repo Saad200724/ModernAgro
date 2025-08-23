@@ -59,8 +59,11 @@ export default function CheckoutPage() {
         totalPrice: (parseFloat(item.product.price) * item.quantity).toString(),
       }));
 
-      const response = await apiRequest("POST", "/api/orders", { order, items: orderItems });
-      return await response.json();
+      return await apiRequest("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ order, items: orderItems }),
+      });
     },
     onSuccess: (data) => {
       setOrderNumber(data.orderNumber);
@@ -276,7 +279,7 @@ export default function CheckoutPage() {
                       <h4 className="font-medium text-gray-900">{product.name}</h4>
                       <p className="text-sm text-gray-600">Qty: {quantity}</p>
                     </div>
-                    <span className="font-medium">${(parseFloat(product.price) * quantity).toFixed(2)}</span>
+                    <span className="font-medium">৳{(parseFloat(product.price) * quantity).toFixed(2)}</span>
                   </div>
                 ))}
                 
@@ -285,7 +288,7 @@ export default function CheckoutPage() {
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <span>Subtotal</span>
-                    <span data-testid="checkout-subtotal">${getTotalPrice().toFixed(2)}</span>
+                    <span data-testid="checkout-subtotal">৳{getTotalPrice().toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Delivery</span>
@@ -293,7 +296,7 @@ export default function CheckoutPage() {
                   </div>
                   <div className="flex justify-between font-semibold text-lg">
                     <span>Total</span>
-                    <span data-testid="checkout-total">${getTotalPrice().toFixed(2)}</span>
+                    <span data-testid="checkout-total">৳{getTotalPrice().toFixed(2)}</span>
                   </div>
                 </div>
               </div>
