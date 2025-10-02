@@ -201,7 +201,7 @@ export default function ContactPage() {
               {/* Google Maps Embed */}
               <Card className="overflow-hidden" data-testid="map-section">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.8891234567890!2d77.12345678901234!3d28.567890123456789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjjCsDM0JzA0LjQiTiA3N8KwMDcnMjQuNSJF!5e0!3m2!1sen!2sin!4v1234567890123!5m2!1sen!2sin"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3613.5862847573425!2d55.27828197598408!3d25.094669577753876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f6ca2b4ba497d%3A0x4e163a5c9b9b93e3!2sUnnamed%20Road%20-%20Nad%20Al%20Sheba%20-%20Nad%20Al%20Sheba%203%20-%20Dubai%20-%20United%20Arab%20Emirates!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
                   width="100%"
                   height="256"
                   style={{ border: 0 }}
