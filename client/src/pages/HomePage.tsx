@@ -138,25 +138,29 @@ export default function HomePage() {
             </p>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-8" data-testid="featured-products-grid">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6" data-testid="featured-products-grid">
             {isLoading ? (
               Array.from({ length: 4 }).map((_, index) => (
                 <Card key={index} className="overflow-hidden">
-                  <Skeleton className="w-full h-48" />
-                  <CardContent className="p-6">
-                    <Skeleton className="h-6 w-3/4 mb-2" />
-                    <Skeleton className="h-4 w-full mb-4" />
+                  <Skeleton className="w-full aspect-square" />
+                  <CardContent className="p-4">
+                    <Skeleton className="h-5 w-3/4 mb-2" />
+                    <Skeleton className="h-4 w-full mb-3" />
                     <div className="flex items-center justify-between">
                       <Skeleton className="h-6 w-16" />
-                      <Skeleton className="h-9 w-24" />
+                      <Skeleton className="h-9 w-9 rounded-full" />
                     </div>
                   </CardContent>
                 </Card>
               ))
-            ) : (
+            ) : featuredProducts.length > 0 ? (
               featuredProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <p className="text-gray-500">No products available yet.</p>
+              </div>
             )}
           </div>
         </div>
