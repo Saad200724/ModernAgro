@@ -60,11 +60,12 @@ export default function HomePage() {
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <Link href="/shop">
                   <Button 
-                    className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white px-6 lg:px-8 py-3 text-base lg:text-lg font-semibold shadow-lg transition-all duration-200"
+                    className="w-full sm:w-auto text-white px-6 lg:px-8 py-3 text-base lg:text-lg font-semibold shadow-lg transition-all duration-200 flex items-center justify-center"
+                    style={{ backgroundColor: '#1E391E' }}
                     data-testid="hero-shop-button"
                   >
-                    <ShoppingCart className="w-4 h-4 mr-2" />
-                    Shop Products
+                    <ShoppingCart className="w-5 h-5 mr-2 flex-shrink-0" />
+                    <span className="text-white font-semibold">Shop Products</span>
                   </Button>
                 </Link>
                 <Link href="/contact">
@@ -73,7 +74,7 @@ export default function HomePage() {
                     className="w-full sm:w-auto border-2 border-primary text-primary hover:bg-primary/5 px-6 lg:px-8 py-3 text-base lg:text-lg font-semibold transition-all duration-200"
                     data-testid="hero-message-button"
                   >
-                    <MessageCircle className="w-4 h-4 mr-2" />
+                    <MessageCircle className="w-5 h-5 mr-2" />
                     Contact Us
                   </Button>
                 </Link>
