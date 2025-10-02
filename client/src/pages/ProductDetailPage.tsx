@@ -43,7 +43,8 @@ export default function ProductDetailPage() {
   };
 
   const updateQuantity = (newQuantity: number) => {
-    if (newQuantity >= 1 && newQuantity <= (product?.stock || 999)) {
+    const maxStock = product?.stock ?? 999;
+    if (newQuantity >= 1 && newQuantity <= maxStock) {
       setQuantity(newQuantity);
     }
   };
@@ -85,8 +86,8 @@ export default function ProductDetailPage() {
     );
   }
 
-  const inStock = product.stock > 0;
-  const lowStock = product.stock > 0 && product.stock <= 5;
+  const inStock = (product.stock ?? 0) > 0;
+  const lowStock = (product.stock ?? 0) > 0 && (product.stock ?? 0) <= 5;
 
   return (
     <Layout>
@@ -165,7 +166,7 @@ export default function ProductDetailPage() {
                   <p className="text-3xl lg:text-4xl font-bold" style={{ color: '#1E391E' }} data-testid="product-price">
                     ${parseFloat(product.price).toFixed(2)}
                   </p>
-                  <p className="text-lg text-gray-500">per {product.unit || 'piece'}</p>
+                  <p className="text-lg text-gray-500">per piece</p>
                 </div>
               </div>
 
@@ -175,7 +176,7 @@ export default function ProductDetailPage() {
                   <>
                     <Check className="w-5 h-5 text-green-600" />
                     <span className="text-green-600 font-semibold">
-                      In Stock {lowStock && `(Only ${product.stock} left!)`}
+                      In Stock {lowStock && `(Only ${product.stock ?? 0} left!)`}
                     </span>
                   </>
                 ) : (
@@ -225,7 +226,7 @@ export default function ProductDetailPage() {
                     onChange={(e) => updateQuantity(parseInt(e.target.value) || 1)}
                     className="w-20 h-12 text-center text-lg font-semibold"
                     min="1"
-                    max={product.stock}
+                    max={product.stock ?? undefined}
                     disabled={!inStock}
                     data-testid="quantity-input"
                   />
@@ -233,7 +234,7 @@ export default function ProductDetailPage() {
                     variant="outline"
                     size="lg"
                     onClick={() => updateQuantity(quantity + 1)}
-                    disabled={!inStock || quantity >= product.stock}
+                    disabled={!inStock || quantity >= (product.stock ?? 999)}
                     className="h-12 w-12 p-0"
                     data-testid="quantity-increase"
                   >
