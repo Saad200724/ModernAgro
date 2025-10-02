@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useCart } from "@/components/CartProvider";
 import { useToast } from "@/hooks/use-toast";
-import { Plus, Heart } from "lucide-react";
+import { ShoppingCart, Heart } from "lucide-react";
 import type { Product } from "@shared/schema";
 
 interface ProductCardProps {
@@ -66,7 +66,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             className="w-9 h-9 p-0 bg-green-700 hover:bg-green-800 text-white rounded-full shadow-md hover:shadow-lg transition-all duration-200"
             data-testid={`add-to-cart-${product.id}`}
           >
-            <Plus className="w-5 h-5" />
+            <ShoppingCart className="w-4 h-4" />
           </Button>
         </div>
       </CardContent>
