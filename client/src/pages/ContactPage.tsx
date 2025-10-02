@@ -201,7 +201,7 @@ export default function ContactPage() {
               {/* Google Maps Embed */}
               <Card className="overflow-hidden" data-testid="map-section">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3613.5862847573425!2d55.27828197598408!3d25.094669577753876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f6ca2b4ba497d%3A0x4e163a5c9b9b93e3!2sUnnamed%20Road%20-%20Nad%20Al%20Sheba%20-%20Nad%20Al%20Sheba%203%20-%20Dubai%20-%20United%20Arab%20Emirates!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3649.935996731064!2d90.21247190185242!3d23.820874872947027!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755edd324ac4481%3A0xccdde1e7d735d7e9!2sHaji%20kosimoddin%20jame%20masjid!5e0!3m2!1sen!2sbd!4v1759421022839!5m2!1sen!2sbd"
                   width="100%"
                   height="256"
                   style={{ border: 0 }}
