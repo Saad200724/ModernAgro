@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { ShoppingCart, Menu, X, Search, Home, Package, User, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/components/CartProvider";
+import { useQuery } from "@tanstack/react-query";
+import type { Product } from "@shared/schema";
 import logoImage from "@assets/ModernAgro_1754760252152.png";
 
 interface LayoutProps {
@@ -11,10 +13,17 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showAnnouncementBar, setShowAnnouncementBar] = useState(true);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const mobileSearchInputRef = useRef<HTMLInputElement>(null);
   const { items } = useCart();
+  
+  const { data: products } = useQuery<Product[]>({
+    queryKey: ["/api/products"],
+  });
 
   const cartItemCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -24,6 +33,28 @@ export default function Layout({ children }: LayoutProps) {
     { name: "Blog", href: "/blog" },
     { name: "Contact", href: "/contact" },
   ];
+
+  useEffect(() => {
+    if (isMobileSearchOpen && mobileSearchInputRef.current) {
+      mobileSearchInputRef.current.focus();
+    }
+  }, [isMobileSearchOpen]);
+
+  const filteredProducts = products?.filter(product =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (product.description?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false)
+  ) || [];
+
+  const handleSearchIconClick = () => {
+    setIsMobileSearchOpen(true);
+    setIsMobileMenuOpen(false);
+  };
+
+  const handleProductClick = (productId: number) => {
+    setIsMobileSearchOpen(false);
+    setSearchQuery("");
+    setLocation(`/shop?product=${productId}`);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -97,19 +128,51 @@ export default function Layout({ children }: LayoutProps) {
               {/* Right: Search & Cart */}
               <div className="flex items-center gap-2 lg:gap-3">
                 {/* Search Icon - Mobile */}
-                <button className="lg:hidden p-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                <button 
+                  className="lg:hidden p-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                  onClick={handleSearchIconClick}
+                  aria-label="Search"
+                  data-testid="mobile-search-button"
+                >
                   <Search className="w-5 h-5" />
                 </button>
 
                 {/* Search Bar - Desktop */}
                 <div className="hidden lg:block">
-                  <div className="relative">
+                  <div className="relative group">
                     <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                     <Input 
                       placeholder="Search products..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
                       className="pl-10 pr-4 bg-gray-50 border border-gray-200 rounded-full h-10 text-sm w-64 xl:w-72 focus:w-80 focus:bg-white focus:border-primary/30 focus:ring-2 focus:ring-primary/10 transition-all duration-200"
                       data-testid="search-input"
                     />
+                    {/* Desktop Search Results Dropdown */}
+                    {searchQuery && filteredProducts.length > 0 && (
+                      <div className="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-96 overflow-y-auto z-50">
+                        {filteredProducts.slice(0, 8).map((product) => (
+                          <button
+                            key={product.id}
+                            onClick={() => handleProductClick(product.id)}
+                            className="w-full px-4 py-3 hover:bg-gray-50 text-left flex items-center gap-3 border-b border-gray-100 last:border-0"
+                            data-testid={`search-result-${product.id}`}
+                          >
+                            {product.imageUrl && (
+                              <img 
+                                src={product.imageUrl} 
+                                alt={product.name} 
+                                className="w-12 h-12 object-cover rounded"
+                              />
+                            )}
+                            <div className="flex-1">
+                              <p className="font-medium text-gray-900 text-sm">{product.name}</p>
+                              <p className="text-xs text-gray-500">${product.price}</p>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -152,23 +215,79 @@ export default function Layout({ children }: LayoutProps) {
                       {item.name}
                     </Link>
                   ))}
-                  
-                  {/* Mobile Search */}
-                  <div className="pt-3 pb-2">
-                    <div className="relative">
-                      <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                      <Input 
-                        placeholder="Search products..."
-                        className="pl-10 bg-gray-50 border border-gray-200 rounded-full h-11 text-sm w-full"
-                        data-testid="search-input-mobile"
-                      />
-                    </div>
-                  </div>
                 </div>
               </div>
             )}
           </div>
         </header>
+
+        {/* Mobile Search Modal */}
+        {isMobileSearchOpen && (
+          <div className="lg:hidden fixed inset-0 bg-white z-50 flex flex-col" data-testid="mobile-search-modal">
+            {/* Search Header */}
+            <div className="flex items-center gap-3 p-4 border-b border-gray-200">
+              <button 
+                onClick={() => {
+                  setIsMobileSearchOpen(false);
+                  setSearchQuery("");
+                }}
+                className="p-2 -ml-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                aria-label="Close search"
+                data-testid="close-search-button"
+              >
+                <X className="w-6 h-6" />
+              </button>
+              <div className="flex-1 relative">
+                <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Input 
+                  ref={mobileSearchInputRef}
+                  placeholder="Search products..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 bg-gray-50 border border-gray-200 rounded-full h-11 text-sm w-full"
+                  data-testid="search-input-mobile"
+                />
+              </div>
+            </div>
+
+            {/* Search Results */}
+            <div className="flex-1 overflow-y-auto">
+              {searchQuery === "" ? (
+                <div className="flex items-center justify-center h-full text-gray-500 text-sm px-4 text-center">
+                  <p>Start typing to search for products</p>
+                </div>
+              ) : filteredProducts.length === 0 ? (
+                <div className="flex items-center justify-center h-full text-gray-500 text-sm px-4 text-center">
+                  <p>No products found matching "{searchQuery}"</p>
+                </div>
+              ) : (
+                <div className="divide-y divide-gray-100">
+                  {filteredProducts.map((product) => (
+                    <button
+                      key={product.id}
+                      onClick={() => handleProductClick(product.id)}
+                      className="w-full px-4 py-4 hover:bg-gray-50 text-left flex items-center gap-3 transition-colors"
+                      data-testid={`search-result-${product.id}`}
+                    >
+                      {product.imageUrl && (
+                        <img 
+                          src={product.imageUrl} 
+                          alt={product.name} 
+                          className="w-16 h-16 object-cover rounded-lg flex-shrink-0"
+                        />
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-gray-900 text-sm truncate">{product.name}</p>
+                        <p className="text-xs text-gray-500 line-clamp-2 mt-1">{product.description}</p>
+                        <p className="text-sm font-bold mt-1" style={{ color: '#1E391E' }}>${product.price}</p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Main Content */}
