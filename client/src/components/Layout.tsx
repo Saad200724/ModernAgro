@@ -75,7 +75,7 @@ export default function Layout({ children }: LayoutProps) {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={`px-2 sm:px-4 xl:px-6 py-2 rounded-full text-xs sm:text-sm font-medium transition-colors ${
+                    className={`px-2 sm:px-4 xl:px-6 py-2 rounded-full text-xs sm:text-sm font-normal transition-colors ${
                       location === item.href
                         ? "bg-green-700 text-white"
                         : "text-gray-700 hover:bg-gray-100"
@@ -133,7 +133,7 @@ export default function Layout({ children }: LayoutProps) {
                     <Link
                       key={item.name}
                       href={item.href}
-                      className={`flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                      className={`flex items-center px-4 py-3 rounded-lg text-sm font-normal transition-colors ${
                         location === item.href
                           ? "bg-green-700 text-white"
                           : "text-gray-700 hover:bg-gray-100"
