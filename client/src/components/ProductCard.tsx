@@ -63,7 +63,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           <Button 
             onClick={handleAddToCart} 
             size="sm"
-            className="w-9 h-9 p-0 bg-primary hover:bg-primary/90 text-white rounded-full shadow-md hover:shadow-lg transition-all duration-200"
+            className="w-9 h-9 p-0 bg-green-700 hover:bg-green-800 text-white rounded-full shadow-md hover:shadow-lg transition-all duration-200"
             data-testid={`add-to-cart-${product.id}`}
           >
             <Plus className="w-5 h-5" />
