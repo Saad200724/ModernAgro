@@ -47,39 +47,46 @@ export default function Layout({ children }: LayoutProps) {
         )}
 
         {/* Header */}
-        <header className="bg-white shadow-sm border-b border-gray-100">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-16 lg:h-20">
-              {/* Mobile Menu Button */}
-              <button 
-                className="lg:hidden p-2 -ml-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                data-testid="mobile-menu-button"
-              >
-                {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </button>
+        <header className="bg-white shadow-sm">
+          <div className="max-w-7xl mx-auto">
+            {/* Main Header Row */}
+            <div className="flex items-center justify-between h-16 lg:h-20 px-4 sm:px-6 lg:px-8">
+              
+              {/* Left: Mobile Menu + Logo */}
+              <div className="flex items-center gap-3 lg:gap-4">
+                {/* Mobile Menu Button */}
+                <button 
+                  className="lg:hidden p-2 -ml-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  aria-label="Toggle menu"
+                  data-testid="mobile-menu-button"
+                >
+                  {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                </button>
 
-              {/* Logo */}
-              <Link href="/" className="flex items-center space-x-2 lg:space-x-3" data-testid="logo-link">
-                <img 
-                  src={logoImage} 
-                  alt="Modern Agro Logo" 
-                  className="w-8 h-8 lg:w-10 lg:h-10 rounded-full object-cover"
-                />
-                <span className="hidden sm:block text-lg lg:text-xl font-bold text-gray-900">Modern Agro</span>
-              </Link>
+                {/* Logo */}
+                <Link href="/" className="flex items-center gap-2 lg:gap-3 flex-shrink-0" data-testid="logo-link">
+                  <img 
+                    src={logoImage} 
+                    alt="Modern Agro" 
+                    className="w-9 h-9 lg:w-11 lg:h-11 rounded-full object-cover ring-2 ring-primary/10"
+                  />
+                  <span className="text-lg lg:text-xl font-bold text-gray-900 whitespace-nowrap">Modern Agro</span>
+                </Link>
+              </div>
 
-              {/* Navigation - Visible on all screens */}
-              <nav className="flex items-center space-x-1">
+              {/* Center: Desktop Navigation */}
+              <nav className="hidden lg:flex items-center gap-1 absolute left-1/2 transform -translate-x-1/2">
                 {navigation.map((item) => (
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={`px-2 sm:px-4 xl:px-6 py-2 rounded-full text-xs sm:text-sm font-medium transition-colors ${
+                    className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 ${
                       location === item.href
-                        ? "bg-green-700 text-white"
-                        : "text-gray-700 hover:bg-gray-100"
+                        ? "text-white shadow-md"
+                        : "text-gray-700 hover:bg-gray-50"
                     }`}
+                    style={location === item.href ? { backgroundColor: '#1E391E' } : {}}
                     data-testid={`nav-${item.name.toLowerCase()}`}
                   >
                     {item.name}
@@ -87,25 +94,37 @@ export default function Layout({ children }: LayoutProps) {
                 ))}
               </nav>
 
-              {/* Right Side: Search & Cart */}
-              <div className="flex items-center gap-2 lg:gap-4">
-                {/* Search Bar - Hidden on mobile, visible on tablet+ */}
-                <div className="hidden md:block">
+              {/* Right: Search & Cart */}
+              <div className="flex items-center gap-2 lg:gap-3">
+                {/* Search Icon - Mobile */}
+                <button className="lg:hidden p-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                  <Search className="w-5 h-5" />
+                </button>
+
+                {/* Search Bar - Desktop */}
+                <div className="hidden lg:block">
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                     <Input 
-                      placeholder="What can we help you find?"
-                      className="pl-10 pr-4 bg-gray-50 border-0 rounded-full h-10 text-sm w-48 lg:w-64 xl:w-80 focus:w-64 lg:focus:w-80 xl:focus:w-96 transition-all"
+                      placeholder="Search products..."
+                      className="pl-10 pr-4 bg-gray-50 border border-gray-200 rounded-full h-10 text-sm w-64 xl:w-72 focus:w-80 focus:bg-white focus:border-primary/30 focus:ring-2 focus:ring-primary/10 transition-all duration-200"
                       data-testid="search-input"
                     />
                   </div>
                 </div>
 
                 {/* Cart */}
-                <Link href="/cart" className="relative p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors" data-testid="cart-button">
+                <Link 
+                  href="/cart" 
+                  className="relative p-2 lg:p-2.5 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors" 
+                  data-testid="cart-button"
+                >
                   <ShoppingCart className="w-5 h-5 lg:w-6 lg:h-6" />
                   {cartItemCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium" data-testid="cart-count">
+                    <span 
+                      className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full min-w-[20px] h-5 px-1 flex items-center justify-center font-semibold shadow-sm" 
+                      data-testid="cart-count"
+                    >
                       {cartItemCount}
                     </span>
                   )}
@@ -113,37 +132,38 @@ export default function Layout({ children }: LayoutProps) {
               </div>
             </div>
 
-            {/* Mobile Search Bar - Below header on mobile only */}
-            <div className="md:hidden pb-3">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <Input 
-                  placeholder="What can we help you find?"
-                  className="pl-10 bg-gray-50 border-0 rounded-full h-10 text-sm w-full"
-                  data-testid="search-input-mobile"
-                />
-              </div>
-            </div>
-
-            {/* Mobile Menu Overlay */}
+            {/* Mobile Menu Dropdown */}
             {isMobileMenuOpen && (
-              <div className="lg:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-50" data-testid="mobile-menu">
-                <div className="px-4 py-4 space-y-2">
+              <div className="lg:hidden border-t border-gray-100 bg-white shadow-lg" data-testid="mobile-menu">
+                <div className="px-4 py-3 space-y-1">
                   {navigation.map((item) => (
                     <Link
                       key={item.name}
                       href={item.href}
-                      className={`flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                      className={`flex items-center px-4 py-3 rounded-lg text-sm font-semibold transition-all ${
                         location === item.href
-                          ? "bg-green-700 text-white"
-                          : "text-gray-700 hover:bg-gray-100"
+                          ? "text-white shadow-sm"
+                          : "text-gray-700 hover:bg-gray-50"
                       }`}
+                      style={location === item.href ? { backgroundColor: '#1E391E' } : {}}
                       onClick={() => setIsMobileMenuOpen(false)}
                       data-testid={`mobile-nav-${item.name.toLowerCase()}`}
                     >
                       {item.name}
                     </Link>
                   ))}
+                  
+                  {/* Mobile Search */}
+                  <div className="pt-3 pb-2">
+                    <div className="relative">
+                      <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                      <Input 
+                        placeholder="Search products..."
+                        className="pl-10 bg-gray-50 border border-gray-200 rounded-full h-11 text-sm w-full"
+                        data-testid="search-input-mobile"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
