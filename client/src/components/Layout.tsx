@@ -75,7 +75,7 @@ export default function Layout({ children }: LayoutProps) {
                     href={item.href}
                     className={`px-2 sm:px-4 xl:px-6 py-2 rounded-full text-xs sm:text-sm font-medium transition-colors ${
                       location === item.href
-                        ? "bg-primary text-white"
+                        ? "bg-green-700 text-white"
                         : "text-gray-700 hover:bg-gray-100"
                     }`}
                     data-testid={`nav-${item.name.toLowerCase()}`}
@@ -133,7 +133,7 @@ export default function Layout({ children }: LayoutProps) {
                       href={item.href}
                       className={`flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                         location === item.href
-                          ? "bg-primary text-white"
+                          ? "bg-green-700 text-white"
                           : "text-gray-700 hover:bg-gray-100"
                       }`}
                       onClick={() => setIsMobileMenuOpen(false)}
